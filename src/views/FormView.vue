@@ -100,6 +100,7 @@ import "vue3-toastify/dist/index.css";
 import Swal from "sweetalert2";
 import { useEstudiantesStore } from '@/stores/publico/formularioStore';
 import { useFilesStore } from '@/stores/publico/filesStore';
+import {useAuthStore} from '@/stores/admin/loginStore';
 export default {
     components: {
     Footer,
@@ -108,8 +109,9 @@ export default {
   setup() {
     const RegistrarFormulario = useEstudiantesStore();
     const filesStore = useFilesStore();
+    const authStore = useAuthStore();
 
-    return { RegistrarFormulario, filesStore };
+    return { RegistrarFormulario, filesStore, authStore };
   },
     data() {
         return {
@@ -179,52 +181,42 @@ export default {
         async RegistrarEstudiante(){
             // validacines para los campos
             // Validación para el correo del aplicante
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Regex para validar correos
-            const numberRegex = /^[0-9]+$/; // Regex para validar que sea solo números
-
-            if (this.Nombres === "") {
-                toast.error("El nombre del estudiante es requerido");
+            if(this.Estudiante.email === "" || this.Estudiante.email === null){
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "El correo del estudiante no puede estar vacío",
+                });
                 return;
             }
 
-            if (this.Apellido === "") {
-                toast.error("El apellido del estudiante es requerido");
+            // Validacion de contrasña
+            if(this.Estudiante.contrasenia === "" || this.Estudiante.contrasenia === null){
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "La contraseña del estudiante no puede estar vacía",
+                });
                 return;
             }
-
-            if (this.Estudiante.telefono === "") {
-                toast.error("El número de celular es requerido");
+            if(this.Estudiante.contrasenia !== this.Estudiante.contrasenia2){
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "La contraseña del estudiante debe coincider",
+                });
                 return;
             }
-
-            if (this.Estudiante.fechaNacimiento === "") {
-                toast.error("La fecha de nacimiento es requerida");
-                return;
-            }
-
-            if (this.Estudiante.ciudadNacimiento === "") {
-                toast.error("La ciudad de nacimiento es requerida");
-                return;
-            }
-
-            if (this.Estudiante.carrera === "") {
-                toast.error("La carrera es requerida");
-                return;
-            }
-
-            if (!emailRegex.test(this.Estudiante.email)) {
-                toast.error("El correo del estudiante no es válido");
-                return;
-            }
-
-            if (!numberRegex.test(this.Estudiante.telefono)) {
-                toast.error("El número de celular no es válido");
-                return;
-            }
+           
 
             let loader = this.$loading ? this.$loading.show() : null;
-            const response = await this.RegistrarFormulario.postEstudiante(
-                this.Estudiante
+            const response = await this.authStore.register({
+                username: this.Estudiante.email,
+                password: this.Estudiante.contrasenia,
+                email: this.Estudiante.email,
+                first_name: this.Estudiante.carrera,
+            }
+         
             );
 
             if (response) {
@@ -241,6 +233,7 @@ export default {
                 this.Estudiante.ciudadNacimiento = "";
                 this.Estudiante.carrera = "";
                 this.Estudiante.imagenUrl = "";
+                this.$router.push({ name: "login" });
 
             } else {
                 console.error("Error subiendo el formulario");

@@ -20,9 +20,10 @@ export const useAuthStore = defineStore('auth', {
             this.isBlocked = false;
             this.attemps = 0;
         },
-        async login(credentials) {
+
+        async register(credentials) {
             try {
-                const response = await axios.post(`${RutaApi}auth/login`, 
+                const response = await axios.post(`${RutaApi}auth/register`, 
                     credentials,
                     {
                         headers: {
@@ -30,27 +31,61 @@ export const useAuthStore = defineStore('auth', {
                         },
                     }
                 );
+                console.log(response.status);
+                if(response.status === 200){
+                    this.isBlocked = false;
+                    this.attemps = 0;
+                }
+                
                 console.log(response);
-                if(response.data.code !== "200" || this.isBlocked){
-                        this.attemps = this.attemps + 1;
-                        if(this.attemps > 3){
-                            this.isBlocked = true;
-                            this.blockTime = 10;
-                        }
-                        return null;
-                    }
                 
-                
-                this.authToken = response.data.response.authToken;
-                this.refreshToken = response.data.response.refreshToken;
+                this.authToken = response.data.token;
+                //this.refreshToken = response.data.response.refreshToken;
                 Cookies.set('authToken', this.authToken);
-                Cookies.set('refreshToken', this.refreshToken);
-                Cookies.set('idUser', response.data.response.idUser);
-                Cookies.set('type', response.data.response.type);
-                this.type = response.data.response.type;
-                this.idUser = response.data.response.idUser;
+                //Cookies.set('refreshToken', this.refreshToken);
+                //Cookies.set('idUser', response.data.response.idUser);
+                //Cookies.set('type', response.data.response.type);
+                //this.type = response.data.response.type;
+                //this.idUser = response.data.response.idUser;
                 return response.data;
             } catch (error) {
+                console.error('Error during login:', error);
+                return error.response;
+            }
+        },
+        async login(credentials) {
+            try {
+                const credentialAux ={
+                    username: credentials.correo,
+                    password: credentials.contrasenia,
+                }
+                const response = await axios.post(`${RutaApi}auth/login`, 
+                    credentialAux,
+                    {
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    }
+                );
+                console.log(response.status);
+                if(response.status === 200){
+                    this.isBlocked = false;
+                    this.attemps = 0;
+                }
+                
+                console.log(response);
+                
+                this.authToken = response.data.token;
+                //this.refreshToken = response.data.response.refreshToken;
+                Cookies.set('authToken', this.authToken);
+                //Cookies.set('refreshToken', this.refreshToken);
+                //Cookies.set('idUser', response.data.response.idUser);
+                //Cookies.set('type', response.data.response.type);
+                //this.type = response.data.response.type;
+                //this.idUser = response.data.response.idUser;
+                return response.data;
+            } catch (error) {
+                console.error('Error during login:', error);
                 return error.response;
             }
         },
