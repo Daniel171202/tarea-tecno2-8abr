@@ -117,7 +117,7 @@ export default {
     };
   },
   async mounted() {
-    await this.ObtenerEstudiantes();
+   
   },
   setup() {
     const estudiantesAdminStore = useEstudiatesAdminStore();
@@ -139,97 +139,15 @@ export default {
     closeEditModal() {
       this.showModal = false;
     },
-    async saveChanges() {
-      this.showModal = false;
-      // Lógica para guardar los cambios en el estudiante
-      let loader = this.$loading ? this.$loading.show() : null;
-      const response = await this.estudiantesAdminStore.putEstudiante(
-        this.selectedStudent
-      );
-      console.log("response", response);
-      if (response) {
-        this.$emit("close");
-        Swal.fire({
-          icon: "success",
-          title: "Estudiante actualizado",
-          text: "El estudiante ha sido actualizado correctamente",
-        });
-        this.ObtenerEstudiantes();
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: "No se pudo actualizar el estudiante",
-        });
-      }
-      if (loader) loader.hide();
 
-      return;
-    },
-    async EliminarItem(item) {
-      const result = await Swal.fire({
-        title: "¿Estás seguro?",
-        text: "No podrás revertir esto",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Sí, borrar",
-        cancelButtonText: "Cancelar",
-      });
-
-      if (result.isConfirmed) {
-        let loader = this.$loading?.show(); // Usa ? en caso de que no esté definido
-
-        try {
-          console.log("Eliminando estudiante", item);
-          console.log("Eliminando estudiante", item.id);
-          let response = await this.estudiantesAdminStore.deleteEstudiante(
-            item.id
-          );
-          loader?.hide(); // Oculta el loader si está definido
-
-          if (response) {
-            await Swal.fire({
-              icon: "success",
-              title: "Estudiante eliminado",
-              text: "El estudiante ha sido eliminado correctamente",
-            });
-            this.ObtenerEstudiantes();
-          } else {
-            throw new Error("No se pudo eliminar el estudiante");
-          }
-        } catch (error) {
-          loader?.hide();
-          Swal.fire({
-            icon: "error",
-            title: "Error",
-            text: "No se pudo eliminar el estudiante",
-          });
-        }
-      }
-    },
+   
     loadFile(event) {
       this.image = document.getElementById(event.target.name);
       this.selectedStudent.imagenUrl = URL.createObjectURL(
         event.target.files[0]
       );
     },
-    async ObtenerEstudiantes() {
-      let loader = this.$loading.show();
-
-      this.Estudiantes = await this.estudiantesAdminStore.getEstudiantes();
-
-      loader.hide();
-
-      if (this.Estudiantes == null) {
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: "No se pudo cargar los estudiantes",
-        });
-      }
-    },
+   
   },
 };
 </script>
