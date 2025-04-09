@@ -60,7 +60,7 @@
   <!-- End Hero -->
   <section id="historia" class="bg-white dark:bg-gray-900">
     <div class="max-w-6xl px-6 py-10 mx-auto" data-aos="fade-up" data-aos-duration="1000" >
-        <p class="text-xl font-medium text-yellow-500 ">Universidad Católica Boliviana "San Pablo" </p>
+        <p class="text-xl font-medium text-yellow-500 ">Albergue de perror "Huellitas" </p>
 
         <h1 class="mt-2 text-2xl font-semibold text-blue-900 capitalize lg:text-3xl dark:text-white">
           Nuestra Historia
@@ -144,7 +144,7 @@ con responsabilidad social ambiental. </div>
   data-aos="fade-up" data-aos-duration="1000">
 		<h2 class="mb-2 text-4xl font-bold leading-none text-center text-blue-950">Adopta hoy!</h2>
 		<h2 class="mb-8 text-md font-bold leading-none text-center text-yellow-500"> Albergue huellitas
-      <span class="text-yellow-500 drop-shadow-xl"> "San Pablo"</span></h2>
+      <span class="text-yellow-500 drop-shadow-xl"> </span></h2>
     <ul class="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
 			<li class="flex items-center space-x-2">
 				<svg xmlns="https://www.la-razon.com/wp-content/uploads/2023/04/24/06/perros-callejeros.jpg" viewBox="0 0 512 512" class="w-5 h-5 fill-current text-blue-600">
