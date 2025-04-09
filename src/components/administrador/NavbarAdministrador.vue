@@ -4,8 +4,8 @@
     <nav class="bg-white dark:bg-gray-900 fixed w-full z-30 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
       <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-6">
       <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
-          <img src="@/assets/images/ucb/logo5.png" class="h-10" alt="Flowbite Logo">
-          <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white text-blue-800">UCB</span>
+          <img src="@/assets/images/perros/fentee.png" class="h-10" alt="Flowbite Logo">
+          <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white text-blue-800">Albergue</span>
       </a>
       <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
 
