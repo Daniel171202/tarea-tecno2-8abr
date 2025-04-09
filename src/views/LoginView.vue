@@ -92,10 +92,10 @@ export default {
           contrasenia: this.contrasenia,
         };
         const response = await this.authStore.login(credentials);
-        loader.hide();
+        console.log(response);
         if (response) {
-          if (response.response.type === 1 && response.response.authToken !== null) {
-            this.$router.push({ name: "records" });
+          if (response.token) {
+            this.$router.push('/dashboard');
           } else {
             throw new Error("Usuario o contraseña incorrectos");
           }
